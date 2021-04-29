@@ -1,0 +1,14 @@
+{
+  "name": "bar-chart",
+  "version": "1.0.0",
+  "description": "visualizing data with a bar chart",
+  "main": "./src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Jesse Devaney",
+  "license": "MIT",
+  "dependencies": {
+    "d3": "^6.7.0"
+  }
+}
