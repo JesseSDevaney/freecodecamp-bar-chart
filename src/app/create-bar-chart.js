@@ -1,4 +1,5 @@
 import * as d3 from "d3";
+import "./chart.scss";
 
 export default function createBarChart(dataset) {
   const width = 160;
