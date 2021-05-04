@@ -1,31 +1,22 @@
 import "./index.scss";
+import createBarChart from "./app/create-bar-chart";
 
-if (document.readyState === "loading") {
-  document.addEventListener("DOMContentLoaded", () => {
-    fetch(
-      "https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json"
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        document.getElementById("chart-container").textContent = JSON.stringify(
-          data
-        );
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  });
-} else {
+function ready() {
   fetch(
     "https://raw.githubusercontent.com/freeCodeCamp/ProjectReferenceData/master/GDP-data.json"
   )
     .then((response) => response.json())
-    .then((data) => {
-      document.getElementById("chart-container").textContent = JSON.stringify(
-        data
-      );
+    .then((json) => {
+      const dataset = json.data;
+      createBarChart(dataset);
     })
     .catch((error) => {
       console.log(error);
     });
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", ready);
+} else {
+  ready();
 }
