@@ -35,7 +35,24 @@ export default function createBarChart(dataset) {
     .attr("class", "bar")
     .attr("data-date", (d) => d[0])
     .attr("data-gdp", (d) => d[1])
-    .attr("fill", "blue");
+    .attr("fill", "blue")
+    .append("title")
+    .attr("id", "tooltip")
+    .attr("data-date", (d) => d[0])
+    .text((d, i) => {
+      if (i === 0) {
+        return `GDP: ${d[1]}` + `\nDate: ${d[0]}` + `\nChange in GDP: N/A`;
+      } else {
+        const previous = dataset[i - 1];
+        const changeInGDP = d[1] - previous[1];
+
+        return (
+          `GDP: ${d[1]}` +
+          `\nDate: ${d[0]}` +
+          `\nChange in GDP: ${changeInGDP.toFixed(1)}`
+        );
+      }
+    });
 
   svg
     .append("text")
