@@ -33,4 +33,14 @@ export default function createBarChart(dataset) {
     .attr("x", (d, i) => padWidth + barGap + i * (barWidth + barGap))
     .attr("y", (d) => yScale(d[1]))
     .attr("fill", "blue");
+
+  svg
+    .append("text")
+    .attr("id", "title")
+    .text("GDP (in billions) versus Time")
+    .style("font-size", "3px")
+    .attr("x", "50%")
+    .attr("y", 5)
+    .attr("dominant-baseline", "middle")
+    .attr("text-anchor", "middle");
 }
