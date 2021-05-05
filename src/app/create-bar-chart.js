@@ -28,10 +28,11 @@ export default function createBarChart(dataset) {
     .data(dataset)
     .enter()
     .append("rect")
-    .attr("width", `${barWidth}px`)
+    .attr("width", barWidth)
     .attr("height", (d) => height - yScale(d[1]) - padHeight)
     .attr("x", (d, i) => padWidth + barGap + i * (barWidth + barGap))
     .attr("y", (d) => yScale(d[1]))
+    .attr("class", "bar")
     .attr("fill", "blue");
 
   svg
