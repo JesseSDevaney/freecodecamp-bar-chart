@@ -33,6 +33,8 @@ export default function createBarChart(dataset) {
     .attr("x", (d, i) => padWidth + barGap + i * (barWidth + barGap))
     .attr("y", (d) => yScale(d[1]))
     .attr("class", "bar")
+    .attr("data-date", (d) => d[0])
+    .attr("data-gdp", (d) => d[1])
     .attr("fill", "blue");
 
   svg
