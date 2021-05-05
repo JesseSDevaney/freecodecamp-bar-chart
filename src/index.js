@@ -11,6 +11,7 @@ function ready() {
       createBarChart(dataset);
     })
     .catch((error) => {
+      alert("Error fetching data");
       console.log(error);
     });
 }
