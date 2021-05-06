@@ -88,10 +88,10 @@ export default function createBarChart(dataset) {
     .data(dataset)
     .enter()
     .append("rect")
-    .attr("width", barWidth)
-    .attr("height", (d) => height - yScale(d[1]) - padHeight)
     .attr("x", (d, i) => xScale(dataDates[i]))
     .attr("y", (d) => yScale(d[1]))
+    .attr("width", barWidth)
+    .attr("height", (d) => height - yScale(d[1]) - padHeight)
     .attr("class", "bar")
     .attr("data-date", (d) => d[0])
     .attr("data-yearAndQuarter", (d, i) => yearAndQuarter[i])
@@ -106,10 +106,11 @@ export default function createBarChart(dataset) {
       }
     })
     .attr("fill", (d, i) => {
+      const previous = dataset[i - 1];
       if (i === 0) {
-        return "green";
+        return positiveColor;
       } else {
-        return d[1] >= dataset[i - 1][1] ? positiveColor : negativeColor;
+        return d[1] >= previous[1] ? positiveColor : negativeColor;
       }
     })
     .on("mouseover", (event) => {
