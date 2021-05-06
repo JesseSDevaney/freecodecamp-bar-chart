@@ -18,4 +18,13 @@ body {
     justify-content: center;
     align-items: center;
   }
+
+  #tooltip {
+    position: fixed;
+    background: black;
+    opacity: 0.9;
+    color: white;
+    padding: 1rem;
+    white-space: pre;
+  }
 }

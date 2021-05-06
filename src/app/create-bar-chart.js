@@ -16,11 +16,28 @@ export default function createBarChart(dataset) {
   const padHeight = 0.1 * height;
   const barWidth = (width - 2 * padWidth) / dataset.length;
 
+  const yearAndQuarter = dataset.map((item) => {
+    let quarter;
+    const temp = item[0].substring(5, 7);
+
+    if (temp === "01") {
+      quarter = "Q1";
+    } else if (temp === "04") {
+      quarter = "Q2";
+    } else if (temp === "07") {
+      quarter = "Q3";
+    } else if (temp === "10") {
+      quarter = "Q4";
+    }
+
+    return item[0].substring(0, 4) + " " + quarter;
+  });
+
   // Convert dataset date strings to Date objects
   const dataDates = dataset.map((item) => new Date(item[0]));
 
   // Create scales and axes
-  var dateMax = new Date(d3.max(dataDates));
+  const dateMax = new Date(d3.max(dataDates));
   dateMax.setMonth(dateMax.getMonth() + 3);
   const xScale = d3
     .scaleTime()
@@ -61,6 +78,11 @@ export default function createBarChart(dataset) {
     .attr("transform", "rotate(-90)");
 
   // Create bars
+  const positiveColor = "#4dad20";
+  const positiveHover = "#90f461";
+  const negativeColor = "#ad2222";
+  const negativeHover = "#ffa5a5";
+
   svg
     .selectAll("rect")
     .data(dataset)
@@ -72,13 +94,57 @@ export default function createBarChart(dataset) {
     .attr("y", (d) => yScale(d[1]))
     .attr("class", "bar")
     .attr("data-date", (d) => d[0])
+    .attr("data-yearAndQuarter", (d, i) => yearAndQuarter[i])
     .attr("data-gdp", (d) => d[1])
+    .attr("data-gdpChange", (d, i) => {
+      if (i === 0) {
+        return "N/A";
+      } else {
+        const previous = dataset[i - 1][1];
+        const change = d[1] - previous;
+        return change.toFixed(2);
+      }
+    })
     .attr("fill", (d, i) => {
       if (i === 0) {
         return "green";
       } else {
-        return d[1] >= dataset[i - 1][1] ? "green" : "red";
+        return d[1] >= dataset[i - 1][1] ? positiveColor : negativeColor;
       }
+    })
+    .on("mouseover", (event) => {
+      const { target, x, y } = event;
+
+      if (target.getAttribute("fill") === positiveColor) {
+        target.setAttribute("fill", positiveHover);
+      } else {
+        target.setAttribute("fill", negativeHover);
+      }
+
+      const { gdp, date, yearAndQuarter, gdpChange } = target.dataset;
+
+      const tooltip = document.createElement("div");
+      tooltip.setAttribute("id", "tooltip");
+      tooltip.setAttribute("data-date", date);
+      tooltip.style.left = `${x + 20}px`;
+      tooltip.style.top = `${y + 20}px`;
+      tooltip.appendChild(
+        document.createTextNode(
+          `Date: ${yearAndQuarter}` +
+            `\nGDP: ${gdp}` +
+            `\nChange in GDP: ${gdpChange}`
+        )
+      );
+      document.body.appendChild(tooltip);
+    })
+    .on("mouseout", (event) => {
+      const rect = event.target;
+      if (rect.getAttribute("fill") === positiveHover) {
+        rect.setAttribute("fill", positiveColor);
+      } else {
+        rect.setAttribute("fill", negativeColor);
+      }
+      document.getElementById("tooltip").remove();
     });
 
   // Chart Title
