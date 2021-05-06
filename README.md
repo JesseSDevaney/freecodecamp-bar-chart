@@ -4,7 +4,7 @@
 
 My project that I am completing for FreeCodeCamp's Bar Chart Project in their [Data Visualization](https://www.freecodecamp.org/learn/data-visualization/) course.
 
-View the live project in my **Codepen:** _TODO: ADD WHEN COMPLETED_
+View the live project in my **Codepen:** [Bar Chart](https://codepen.io/jessesdevaney/full/KKWKqzv)
 
 ## License
 
