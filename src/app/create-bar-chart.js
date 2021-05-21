@@ -10,7 +10,18 @@ export default function createBarChart(dataset) {
     .select("#chart-container")
     .append("svg")
     .attr("id", "chart")
+    .attr("width", "100%")
+    .attr("height", "100%")
     .attr("viewBox", `0 0 ${width} ${height}`);
+
+  // border
+  svg
+    .append("rect")
+    .attr("id", "chart-border")
+    .attr("x", 0)
+    .attr("y", 0)
+    .attr("width", width)
+    .attr("height", height);
 
   const padWidth = 0.1 * width;
   const padHeight = 0.1 * height;
